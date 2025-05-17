@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ronyshop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 10px;
+      background: #fff0f6;
+      color: #4a148c;
+    }
+    header {
+      background: #880e4f;
+      color: white;
+      padding: 18px;
+      font-size: 28px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(136,14,79,0.3);
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    button {
+      background: #880e4f;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 15px;
+      width: 100%;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #cart-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #880e4f;
+      color: white;
+      padding: 10px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      z-index: 1000;
+    }
+    #cart-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    #cart-modal.show {
+      display: flex;
+    }
+    #cart-content {
+      background: white;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 10px;
+      padding: 20px;
+      color: #4a148c;
+      position: relative;
+    }
+    #cart-close {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #880e4f;
+    }
+    .cart-item {
+      border-bottom: 1px solid #ddd;
+      padding: 8px 0;
+      font-size: 16px;
+    }
+    form {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<header>Ronyshop</header>
+<p style="text-align:center; font-weight:600;">Byenveni sou Ronyshop! Chwazi atik ou yo epi mete yo nan panyè a pou fè kòmand ou.</p>
+
+<div class="product-card">
+  <h2>Chajè</h2>
+  <label>Tip:</label>
+  <select id="charger-tip">
+    <option value="">-- Chwazi --</option>
+    <option value="USB-C - 300 HTG">USB-C - 300 HTG</option>
+    <option value="iPhone - 350 HTG">iPhone - 350 HTG</option>
+  </select>
+  <label>Koulè:</label>
+  <select id="charger-color">
+    <option value="">-- Chwazi --</option>
+    <option value="Nwa">Nwa</option>
+    <option value="Blan">Blan</option>
+  </select>
+  <button onclick="addToCart('Chajè', [document.getElementById('charger-tip'), document.getElementById('charger-color')])">Ajoute</button>
+</div>
+
+<div class="product-card">
+  <h2>Bakòp</h2>
+  <label>Kapasite:</label>
+  <select id="backup-size">
+    <option value="">-- Chwazi --</option>
+    <option value="3600 mAh - 600 HTG">3600 mAh - 600 HTG</option>
+    <option value="5000 mAh - 800 HTG">5000 mAh - 800 HTG</option>
+    <option value="10000 mAh - 1200 HTG">10000 mAh - 1200 HTG</option>
+    <option value="20000 mAh - 1800 HTG">20000 mAh - 1800 HTG</option>
+  </select>
+  <button onclick="addToCart('Bakòp', [document.getElementById('backup-size')])">Ajoute</button>
+</div>
+
+<div class="product-card">
+  <h2>Kas</h2>
+  <label>Tip:</label>
+  <select id="headset-type">
+    <option value="">-- Chwazi --</option>
+    <option value="A fil - 500 HTG">A fil - 500 HTG</option>
+    <option value="Bluetooth - 900 HTG">Bluetooth - 900 HTG</option>
+  </select>
+  <label>Koulè:</label>
+  <select id="headset-color">
+    <option value="">-- Chwazi --</option>
+    <option value="Nwa">Nwa</option>
+    <option value="Rouj">Rouj</option>
+  </select>
+  <button onclick="addToCart('Kas', [document.getElementById('headset-type'), document.getElementById('headset-color')])">Ajoute</button>
+</div>
+
+<div class="product-card">
+  <h2>Kat Memwa</h2>
+  <label>Kapasite:</label>
+  <select id="sd-size">
+    <option value="">-- Chwazi --</option>
+    <option value="16GB - 400 HTG">16GB - 400 HTG</option>
+    <option value="32GB - 600 HTG">32GB - 600 HTG</option>
+    <option value="64GB - 900 HTG">64GB - 900 HTG</option>
+  </select>
+  <button onclick="addToCart('Kat Memwa', [document.getElementById('sd-size')])">Ajoute</button>
+</div>
+
+<div id="cart-bar" onclick="toggleCart()">
+  <div id="cart-summary">Panye vid</div>
+  <div id="cart-count">0</div>
+</div>
+
+<div id="cart-modal">
+  <div id="cart-content">
+    <span id="cart-close" onclick="toggleCart()">&times;</span>
+    <h3>Atik nan panyè:</h3>
+    <div id="cart-list"></div>
+    <form id="order-form">
+      <label>Non w:</label>
+      <input id="client-name" type="text" required />
+      <label>Adrès pou livrezon:</label>
+      <textarea id="client-address" required></textarea>
+      <label>Antre prèv transfè Natcash (Ronysaintlouis - 55190964):</label>
+      <input id="client-proof" type="text" required placeholder="Ex: ID Transfè" />
+      <button id="order-submit" type="submit">Fè Kòmand</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  let cart = [];
+
+  function addToCart(type, elements) {
+    let valid = true;
+    let detailsList = [];
+
+    elements.forEach(el => {
+      if (!el.value || el.value.includes('Chwazi')) {
+        valid = false;
+      } else {
+        detailsList.push(el.value);
+      }
+    });
+
+    if (!valid) {
+      alert('Tanpri chwazi tout opsyon yo pou ' + type + '.');
+      return;
+    }
+
+    cart.push(type + ': ' + detailsList.join(', '));
+    updateCart();
+  }
+
+  function updateCart() {
+    document.getElementById('cart-summary').innerText = cart.length + ' atik';
+    document.getElementById('cart-count').innerText = cart.length;
+    let listHTML = '';
+    cart.forEach((item, i) => {
+      listHTML += '<div class="cart-item">' + item + '</div>';
+    });
+    document.getElementById('cart-list').innerHTML = listHTML;
+  }
+
+  function toggleCart() {
+    document.getElementById('cart-modal').classList.toggle('show');
+  }
+
+  document.getElementById('order-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('client-name').value.trim();
+    const address = document.getElementById('client-address').value.trim();
+    const proof = document.getElementById('client-proof').value.trim();
+
+    let message = `*Nouvo kòmand sou Ronyshop*%0A`;
+    message += `*Non:* ${name}%0A`;
+    message += `*Adrès:* ${address}%0A`;
+    message += `*Prèv Natcash:* ${proof}%0A`;
+    message += `*Atik yo:*%0A`;
+
+    cart.forEach(item => {
+      message += `- ${item}%0A`;
+    });
+
+    window.open(`https://wa.me/50955190964?text=${message}`, '_blank');
+  });
+</script>
+</body>
+</html>
